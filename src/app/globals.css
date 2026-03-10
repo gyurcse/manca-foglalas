@@ -1,0 +1,368 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fbf5ee;
+  --foreground: #241815;
+  --muted: #765d57;
+  --panel: rgba(255, 250, 245, 0.8);
+  --panel-strong: #fffaf5;
+  --accent: #c8744f;
+  --accent-strong: #9f5738;
+  --border: rgba(36, 24, 21, 0.1);
+  --shadow: rgba(102, 62, 42, 0.14);
+}
+
+@theme inline {
+  --font-sans: "Georgia", "Iowan Old Style", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at top left, rgba(200, 116, 79, 0.22), transparent 26%),
+    radial-gradient(circle at 85% 12%, rgba(137, 170, 125, 0.18), transparent 22%),
+    linear-gradient(180deg, #fffaf5 0%, var(--background) 52%, #efe4d8 100%);
+  font-family: "Georgia", "Iowan Old Style", serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.hero,
+.highlight-grid,
+.details,
+.schedule,
+.footer-card {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: reveal 700ms ease forwards;
+}
+
+.highlight-grid {
+  animation-delay: 100ms;
+}
+
+.details {
+  animation-delay: 180ms;
+}
+
+.schedule {
+  animation-delay: 260ms;
+}
+
+.footer-card {
+  animation-delay: 340ms;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+  min-height: 70vh;
+  align-items: stretch;
+  padding-top: 24px;
+}
+
+.hero-copy,
+.hero-card,
+.highlight-card,
+.details-grid article,
+.timeline-item,
+.footer-card {
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: var(--panel);
+  box-shadow: 0 22px 60px var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.hero-copy {
+  padding: 40px;
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+h1 {
+  max-width: 11ch;
+  font-size: clamp(3.2rem, 8vw, 6.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.lead {
+  margin-top: 22px;
+  max-width: 34rem;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 999px;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button-primary {
+  background: var(--accent);
+  color: #fff9f3;
+}
+
+.button-primary:hover {
+  background: var(--accent-strong);
+}
+
+.button-secondary {
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--border);
+}
+
+.hero-card {
+  padding: 32px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 248, 0.95), rgba(244, 228, 214, 0.9));
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 18px;
+}
+
+.card-kicker {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.ring {
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  position: relative;
+  border: 1px solid rgba(159, 87, 56, 0.28);
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), transparent 36%),
+    linear-gradient(180deg, rgba(255, 241, 221, 0.95), rgba(206, 147, 103, 0.8));
+  animation: float 4s ease-in-out infinite;
+}
+
+.ring::after {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border-radius: 999px;
+  border: 12px solid rgba(255, 248, 240, 0.95);
+}
+
+.quote {
+  max-width: 18rem;
+  line-height: 1.7;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.highlight-card {
+  padding: 22px 24px;
+}
+
+.highlight-card span {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.highlight-card strong {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-weight: 500;
+}
+
+.details,
+.schedule {
+  margin-top: 24px;
+}
+
+.section-heading {
+  max-width: 42rem;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.details-grid article {
+  padding: 26px;
+}
+
+.details-grid p,
+.timeline-item p {
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.timeline {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  padding: 22px 24px;
+  align-items: start;
+}
+
+.timeline-time {
+  font-size: 1.1rem;
+  color: var(--accent-strong);
+}
+
+.footer-card {
+  margin-top: 24px;
+  padding: 28px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--panel-strong);
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .highlight-grid,
+  .details-grid,
+  .footer-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-card {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 20px, 1120px);
+    padding: 20px 0 32px;
+  }
+
+  .hero-copy,
+  .hero-card,
+  .highlight-card,
+  .details-grid article,
+  .timeline-item,
+  .footer-card {
+    border-radius: 22px;
+  }
+
+  .hero-copy,
+  .hero-card,
+  .details-grid article,
+  .timeline-item,
+  .footer-card {
+    padding: 22px;
+  }
+
+  h1 {
+    font-size: clamp(2.8rem, 16vw, 4.5rem);
+  }
+}

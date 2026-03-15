@@ -1,8 +1,8 @@
 # Manca Foglalas
 
-Modern, egyoldalas idopontfoglalo oldal Manca takarito szolgaltatasaihoz.
+Modern, egyoldalas időpontfoglaló oldal Manca takarító szolgáltatásaihoz.
 
-## Inditas
+## Indítás
 
 ```bash
 npm install

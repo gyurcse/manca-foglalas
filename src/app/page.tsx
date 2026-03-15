@@ -6,42 +6,42 @@ const formEndpoint = "https://formspree.io/f/maqpdvlo";
 
 const services = [
   {
-    title: "Lakastakaritas",
+    title: "Lakástakarítás",
     description:
-      "Rendszeres vagy alkalmi takaritas nappalira, halora, konyhara es furdore szabva.",
+      "Rendszeres vagy alkalmi takarítás nappalira, hálóra, konyhára és fürdőre szabva.",
     image:
       "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Melytisztitas",
+    title: "Mélytisztítás",
     description:
-      "Alaposabb tisztitas konyhai feluletekre, fugakra, ajtokra es nehezebben elerheto reszekre.",
+      "Alaposabb tisztítás konyhai felületekre, fugákra, ajtókra és nehezebben elérhető részekre.",
     image:
       "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Irodatakaritas",
+    title: "Irodatakarítás",
     description:
-      "Kisebb irodak, rendelok es uzlethelyisegek delutani vagy kora esti rendbetetele.",
+      "Kisebb irodák, rendelők és üzlethelyiségek délutáni vagy kora esti rendbetétele.",
     image:
       "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
 const benefits = [
-  "Atlathato foglalasi folyamat, nehany lepesben kitoltheto urlappal.",
-  "Pontosan egyeztetett erkezes es kiszamithato delutani idosavok.",
-  "Otthonokhoz, irodakhoz es alkalmi melytisztitashoz is jo valasztas.",
+  "Átlátható foglalási folyamat, néhány lépésben kitölthető űrlappal.",
+  "Pontosan egyeztetett érkezés és kiszámítható délutáni idősávok.",
+  "Otthonokhoz, irodákhoz és alkalmi mélytisztításhoz is jó választás.",
 ];
 
 const testimonials = [
   {
-    quote: "Gyors visszajelzes, pontos erkezes, rendezett lakas.",
-    name: "Kata, XI. kerulet",
+    quote: "Gyors visszajelzés, pontos érkezés, rendezett lakás.",
+    name: "Kata, XI. kerület",
   },
   {
-    quote: "A foglalas egyszeru volt, a takaritas utan minden atlathato lett.",
-    name: "Andras, kis iroda",
+    quote: "A foglalás egyszerű volt, a takarítás után minden átlátható lett.",
+    name: "András, kis iroda",
   },
 ];
 
@@ -92,12 +92,12 @@ export default function Home() {
     const form = event.currentTarget;
 
     if (!(day >= 1 && day <= 5)) {
-      setError("Foglalni csak hetkoznap lehet.");
+      setError("Foglalni csak hétköznap lehet.");
       return;
     }
 
     if (!slots.includes(selectedSlot)) {
-      setError("Csak 15:00 es 18:00 kozotti idosav foglalhato.");
+      setError("Csak 15:00 és 18:00 közötti idősáv foglalható.");
       return;
     }
 
@@ -106,7 +106,7 @@ export default function Home() {
     try {
       const formData = new FormData(form);
       formData.set("selectedDateLabel", weekdays.find((item) => item.value === selectedDate)?.label ?? selectedDate);
-      formData.set("_subject", `Uj foglalasi igeny - ${selectedService} - ${selectedSlot}`);
+      formData.set("_subject", `Új foglalási igény - ${selectedService} - ${selectedSlot}`);
 
       const response = await fetch(formEndpoint, {
         method: "POST",
@@ -117,7 +117,7 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error("A kuldes nem sikerult.");
+        throw new Error("A küldés nem sikerült.");
       }
 
       setSubmitted(true);
@@ -126,7 +126,7 @@ export default function Home() {
       setSelectedSlot(slots[0]);
       setSelectedDate(weekdays[0]?.value ?? "");
     } catch {
-      setError("A foglalast most nem tudtam elkuldeni. Probald ujra par perc mulva.");
+      setError("A foglalást most nem tudtam elküldeni. Próbáld újra pár perc múlva.");
     } finally {
       setIsSubmitting(false);
     }
@@ -138,47 +138,47 @@ export default function Home() {
         <img
           className="hero-image"
           src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1800&q=80"
-          alt="Vilagos, rendezett nappali friss textilekkel"
+          alt="Világos, rendezett nappali friss textilekkel"
         />
         <div className="hero-overlay">
           <div className="hero-copy">
-            <p className="eyebrow">Manca takarito szolgaltatas</p>
-            <h1>Ragyogo terek, pontos erkezessel.</h1>
+            <p className="eyebrow">Manca takarító szolgáltatás</p>
+            <h1>Ragyogó terek, pontos érkezéssel.</h1>
             <p className="lead">
-              Lakastakaritas, melytisztitas es kisebb irodak rendbetetele egy
-              letisztult, bizalmat epito feluleten. Foglalj hetkoznap delutan,
-              amikor neked a legkenyelmesebb.
+              Lakástakarítás, mélytisztítás és kisebb irodák rendbetétele egy
+              letisztult, bizalmat építő felületen. Foglalj hétköznap délután,
+              amikor neked a legkényelmesebb.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#foglalas">
-                Foglalas
+                Foglalás
               </a>
               <a className="button button-secondary" href="#szolgaltatasok">
-                Szolgaltatasok
+                Szolgáltatások
               </a>
             </div>
           </div>
 
           <div className="hero-stat-grid">
             <article className="hero-stat-card">
-              <p className="card-kicker">Foglalhato savok</p>
-              <strong>Hetkoznap 15:00-18:00</strong>
+              <p className="card-kicker">Foglalható sávok</p>
+              <strong>Hétköznap 15:00-18:00</strong>
             </article>
             <article className="hero-stat-card">
-              <p className="card-kicker">Szolgaltatasok</p>
-              <strong>Otthon, iroda, melytisztitas</strong>
+              <p className="card-kicker">Szolgáltatások</p>
+              <strong>Otthon, iroda, mélytisztítás</strong>
             </article>
             <article className="hero-stat-card hero-stat-quote">
               <p className="quote">
-                Tiszta feluletek, rendezett reszletek es egy olyan erkezes, ami
-                belefer a napirendedbe.
+                Tiszta felületek, rendezett részletek és egy olyan érkezés, ami
+                belefér a napirendedbe.
               </p>
             </article>
           </div>
         </div>
       </section>
 
-      <section className="service-nav" aria-label="Szolgaltatas kategoria">
+      <section className="service-nav" aria-label="Szolgáltatás kategória">
         {services.map((service) => (
           <a key={service.title} className="service-pill" href="#szolgaltatasok">
             {service.title}
@@ -188,8 +188,8 @@ export default function Home() {
 
       <section className="services-section" id="szolgaltatasok">
         <div className="section-heading">
-          <p className="eyebrow">Szolgaltatasok</p>
-          <h2>Valos szolgaltatasok, vilagos csomagolasban.</h2>
+          <p className="eyebrow">Szolgáltatások</p>
+          <h2>Valós szolgáltatások, világos csomagolásban.</h2>
         </div>
 
         <div className="service-grid">
@@ -200,7 +200,7 @@ export default function Home() {
                 <h3>{service.title}</h3>
                 <p>{service.description}</p>
                 <a className="service-link" href="#foglalas">
-                  Erre foglalnek
+                  Erre foglalnék
                 </a>
               </div>
             </article>
@@ -210,8 +210,8 @@ export default function Home() {
 
       <section className="why-section">
         <div className="section-heading">
-          <p className="eyebrow">Miert Mancat valaszd</p>
-          <h2>Egyszeru foglalas, atlathato kommunikacio, gondos munka.</h2>
+          <p className="eyebrow">Miért Mancát válaszd</p>
+          <h2>Egyszerű foglalás, átlátható kommunikáció, gondos munka.</h2>
         </div>
         <div className="benefit-grid">
           {benefits.map((benefit) => (
@@ -225,16 +225,16 @@ export default function Home() {
       <section className="content-grid">
         <div className="info-stack">
           <article className="info-card accent-card">
-            <p className="eyebrow">Foglalasi informaciok</p>
+            <p className="eyebrow">Foglalási információk</p>
             <div className="bullet-points">
-              <p>Csak hetkoznap valaszthato datum.</p>
-              <p>Csak 15:00, 16:00, 17:00 es 18:00 idosav valaszthato.</p>
-              <p>A bekuldott igenyekre visszajelzes erkezik a megadott elerhetosegre.</p>
+              <p>Csak hétköznap választható dátum.</p>
+              <p>Csak 15:00, 16:00, 17:00 és 18:00 idősáv választható.</p>
+              <p>A beküldött igényekre visszajelzés érkezik a megadott elérhetőségre.</p>
             </div>
           </article>
 
           <article className="info-card">
-            <p className="eyebrow">Velemenyek</p>
+            <p className="eyebrow">Vélemények</p>
             <div className="testimonial-list">
               {testimonials.map((item) => (
                 <blockquote key={item.name} className="testimonial-card">
@@ -248,18 +248,18 @@ export default function Home() {
 
         <section className="booking-card" id="foglalas">
           <div className="booking-header">
-            <p className="eyebrow">Foglalasi urlap</p>
-            <h2>Kerj idopontot hetkoznap 15:00-18:00 kozott.</h2>
+            <p className="eyebrow">Foglalási űrlap</p>
+            <h2>Kérj időpontot hétköznap 15:00-18:00 között.</h2>
           </div>
 
           <form className="booking-form" onSubmit={handleSubmit}>
             <label>
-              Nev
+              Név
               <input type="text" name="name" placeholder="Teljes neved" required />
             </label>
 
             <label>
-              Telefonszam
+              Telefonszám
               <input type="tel" name="phone" placeholder="+36 30 123 4567" required />
             </label>
 
@@ -269,7 +269,7 @@ export default function Home() {
             </label>
 
             <label>
-              Szolgaltatas
+              Szolgáltatás
               <select
                 name="service"
                 value={selectedService}
@@ -285,7 +285,7 @@ export default function Home() {
 
             <div className="split-fields">
               <label>
-                Hetkoznap
+                Hétköznap
                 <select
                   name="date"
                   value={selectedDate}
@@ -300,7 +300,7 @@ export default function Home() {
               </label>
 
               <label>
-                Idosav
+                Idősáv
                 <select
                   name="slot"
                   value={selectedSlot}
@@ -316,26 +316,26 @@ export default function Home() {
             </div>
 
             <label>
-              Megjegyzes
+              Megjegyzés
               <textarea
                 name="notes"
                 rows={4}
-                placeholder="Pl. lakas merete, kulon kereses, cim..."
+                placeholder="Pl. lakás mérete, külön kérés, cím..."
               />
             </label>
 
             <button className="button button-primary submit-button" type="submit">
-              {isSubmitting ? "Kuldes..." : "Foglalasi igeny kuldese"}
+              {isSubmitting ? "Küldés..." : "Foglalási igény küldése"}
             </button>
 
             <p className="helper-text">
-              Jelenleg csak hetkoznapi, 15:00-18:00 kozotti delutani savok foglalhatok.
+              Jelenleg csak hétköznapi, 15:00-18:00 közötti délutáni sávok foglalhatók.
             </p>
 
             {error ? <p className="error-message">{error}</p> : null}
             {submitted ? (
               <p className="success-message">
-                Foglalasi igeny elkuldve: {selectedService}, {selectedSlot}, {weekdays.find((item) => item.value === selectedDate)?.label}.
+                Foglalási igény elküldve: {selectedService}, {selectedSlot}, {weekdays.find((item) => item.value === selectedDate)?.label}.
               </p>
             ) : null}
           </form>

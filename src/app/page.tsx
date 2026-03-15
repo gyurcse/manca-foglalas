@@ -29,9 +29,9 @@ const services = [
 ];
 
 const benefits = [
-  "Attekintheto foglalas csak hetkoznap 15:00-18:00 kozott.",
-  "Mobilon is gyorsan kitoltheto egyoldalas felulet.",
-  "Otthonokhoz es kisebb irodakhoz is ertelmezett szolgaltatasok.",
+  "Atlathato foglalasi folyamat, nehany lepesben kitoltheto urlappal.",
+  "Pontosan egyeztetett erkezes es kiszamithato delutani idosavok.",
+  "Otthonokhoz, irodakhoz es alkalmi melytisztitashoz is jo valasztas.",
 ];
 
 const testimonials = [
@@ -135,40 +135,45 @@ export default function Home() {
   return (
     <main className="page-shell">
       <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">Manca takarito szolgaltatas</p>
-          <h1>Foglalj takaritast hetkoznap delutanra.</h1>
-          <p className="lead">
-            A felulet most a gyors foglalasra van kielezve: vilagos szolgaltatasblokkok,
-            kepek, egyszeru kapcsolatfelvetel es csak hetkoznap 15:00-18:00 kozotti
-            idopontok.
-          </p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#foglalas">
-              Foglalas
-            </a>
-            <a className="button button-secondary" href="#szolgaltatasok">
-              Szolgaltatasok
-            </a>
+        <img
+          className="hero-image"
+          src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1800&q=80"
+          alt="Vilagos, rendezett nappali friss textilekkel"
+        />
+        <div className="hero-overlay">
+          <div className="hero-copy">
+            <p className="eyebrow">Manca takarito szolgaltatas</p>
+            <h1>Ragyogo terek, pontos erkezessel.</h1>
+            <p className="lead">
+              Lakastakaritas, melytisztitas es kisebb irodak rendbetetele egy
+              letisztult, bizalmat epito feluleten. Foglalj hetkoznap delutan,
+              amikor neked a legkenyelmesebb.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-primary" href="#foglalas">
+                Foglalas
+              </a>
+              <a className="button button-secondary" href="#szolgaltatasok">
+                Szolgaltatasok
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div className="hero-panel">
-          <p className="card-kicker">Gyors attekintes</p>
-          <strong>Hetfőtol pentekig, 15:00-18:00</strong>
-          <p className="quote">
-            A foglalasi urlap most mar el tudja kuldeni az igenyt Formspree-ra,
-            mikozben a datum- es idoszabalyok tovabbra is be vannak tartva.
-          </p>
-          <div className="mini-stats">
-            <div>
-              <span>Idosavok</span>
-              <strong>4 / nap</strong>
-            </div>
-            <div>
-              <span>Valaszido</span>
-              <strong>gyors</strong>
-            </div>
+          <div className="hero-stat-grid">
+            <article className="hero-stat-card">
+              <p className="card-kicker">Foglalhato savok</p>
+              <strong>Hetkoznap 15:00-18:00</strong>
+            </article>
+            <article className="hero-stat-card">
+              <p className="card-kicker">Szolgaltatasok</p>
+              <strong>Otthon, iroda, melytisztitas</strong>
+            </article>
+            <article className="hero-stat-card hero-stat-quote">
+              <p className="quote">
+                Tiszta feluletek, rendezett reszletek es egy olyan erkezes, ami
+                belefer a napirendedbe.
+              </p>
+            </article>
           </div>
         </div>
       </section>
@@ -184,7 +189,7 @@ export default function Home() {
       <section className="services-section" id="szolgaltatasok">
         <div className="section-heading">
           <p className="eyebrow">Szolgaltatasok</p>
-          <h2>Kepekkel tamogatott, egyszeruen atfuthato blokkok.</h2>
+          <h2>Valos szolgaltatasok, vilagos csomagolasban.</h2>
         </div>
 
         <div className="service-grid">
@@ -205,8 +210,8 @@ export default function Home() {
 
       <section className="why-section">
         <div className="section-heading">
-          <p className="eyebrow">Miert jo ez a felulet</p>
-          <h2>Ugyanarra a gyors, szolgaltatasfokuszu logikara epul, mint a mintaoldal.</h2>
+          <p className="eyebrow">Miert Mancat valaszd</p>
+          <h2>Egyszeru foglalas, atlathato kommunikacio, gondos munka.</h2>
         </div>
         <div className="benefit-grid">
           {benefits.map((benefit) => (
@@ -220,11 +225,11 @@ export default function Home() {
       <section className="content-grid">
         <div className="info-stack">
           <article className="info-card accent-card">
-            <p className="eyebrow">Jelenlegi foglalasi szabaly</p>
+            <p className="eyebrow">Foglalasi informaciok</p>
             <div className="bullet-points">
               <p>Csak hetkoznap valaszthato datum.</p>
               <p>Csak 15:00, 16:00, 17:00 es 18:00 idosav valaszthato.</p>
-              <p>A submit a megadott Formspree vegpontra kuldi az igenyt.</p>
+              <p>A bekuldott igenyekre visszajelzes erkezik a megadott elerhetosegre.</p>
             </div>
           </article>
 

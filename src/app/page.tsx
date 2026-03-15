@@ -2,6 +2,8 @@
 
 import { FormEvent, useMemo, useState } from "react";
 
+const formEndpoint = "https://formspree.io/f/maqpdvlo";
+
 const services = [
   {
     title: "Lakastakaritas",
@@ -78,14 +80,16 @@ export default function Home() {
   const [selectedSlot, setSelectedSlot] = useState(slots[0]);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitted(false);
     setError("");
 
     const selected = new Date(selectedDate);
     const day = selected.getDay();
+    const form = event.currentTarget;
 
     if (!(day >= 1 && day <= 5)) {
       setError("Foglalni csak hetkoznap lehet.");
@@ -97,7 +101,35 @@ export default function Home() {
       return;
     }
 
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData(form);
+      formData.set("selectedDateLabel", weekdays.find((item) => item.value === selectedDate)?.label ?? selectedDate);
+      formData.set("_subject", `Uj foglalasi igeny - ${selectedService} - ${selectedSlot}`);
+
+      const response = await fetch(formEndpoint, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("A kuldes nem sikerult.");
+      }
+
+      setSubmitted(true);
+      form.reset();
+      setSelectedService(services[0].title);
+      setSelectedSlot(slots[0]);
+      setSelectedDate(weekdays[0]?.value ?? "");
+    } catch {
+      setError("A foglalast most nem tudtam elkuldeni. Probald ujra par perc mulva.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -125,8 +157,8 @@ export default function Home() {
           <p className="card-kicker">Gyors attekintes</p>
           <strong>Hetfőtol pentekig, 15:00-18:00</strong>
           <p className="quote">
-            Jelenleg a foglalasi urlap nincs kulso rendszerre bekotve, csak helyi
-            demo allapotban mutatja a rogzitest.
+            A foglalasi urlap most mar el tudja kuldeni az igenyt Formspree-ra,
+            mikozben a datum- es idoszabalyok tovabbra is be vannak tartva.
           </p>
           <div className="mini-stats">
             <div>
@@ -192,7 +224,7 @@ export default function Home() {
             <div className="bullet-points">
               <p>Csak hetkoznap valaszthato datum.</p>
               <p>Csak 15:00, 16:00, 17:00 es 18:00 idosav valaszthato.</p>
-              <p>A submit most demo, nem kuld adatot sehova.</p>
+              <p>A submit a megadott Formspree vegpontra kuldi az igenyt.</p>
             </div>
           </article>
 
@@ -288,7 +320,7 @@ export default function Home() {
             </label>
 
             <button className="button button-primary submit-button" type="submit">
-              Foglalasi igeny rogzitese
+              {isSubmitting ? "Kuldes..." : "Foglalasi igeny kuldese"}
             </button>
 
             <p className="helper-text">
@@ -298,7 +330,7 @@ export default function Home() {
             {error ? <p className="error-message">{error}</p> : null}
             {submitted ? (
               <p className="success-message">
-                Demo rogzitve: {selectedService}, {selectedSlot}, {weekdays.find((item) => item.value === selectedDate)?.label}.
+                Foglalasi igeny elkuldve: {selectedService}, {selectedSlot}, {weekdays.find((item) => item.value === selectedDate)?.label}.
               </p>
             ) : null}
           </form>

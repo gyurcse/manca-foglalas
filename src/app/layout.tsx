@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hello Vilag | Eskuvo",
-  description: "Egyszeru, egyoldalas eskuvoi weboldal programmal es helyszininformaciokkal.",
+  title: "Manca Takaritas | Idopontfoglalas",
+  description: "Modern, egyszeru foglalo oldal Manca takarito szolgaltatasaihoz.",
 };
 
 export default function RootLayout({

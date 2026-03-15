@@ -1,6 +1,6 @@
-# Hello Vilag
+# Manca Foglalas
 
-Egyszeru, egyoldalas eskuvoi weboldal Next.js alapon.
+Modern, egyoldalas idopontfoglalo oldal Manca takarito szolgaltatasaihoz.
 
 ## Inditas
 

@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fbf5ee;
-  --foreground: #241815;
-  --muted: #765d57;
-  --panel: rgba(255, 250, 245, 0.8);
-  --panel-strong: #fffaf5;
-  --accent: #c8744f;
-  --accent-strong: #9f5738;
-  --border: rgba(36, 24, 21, 0.1);
-  --shadow: rgba(102, 62, 42, 0.14);
+  --background: #f3f0ea;
+  --foreground: #182126;
+  --muted: #5f6d73;
+  --panel: rgba(255, 255, 255, 0.76);
+  --accent: #1f8a70;
+  --accent-strong: #146854;
+  --accent-soft: #dff5ee;
+  --border: rgba(24, 33, 38, 0.09);
+  --shadow: rgba(31, 56, 51, 0.14);
 }
 
 @theme inline {
-  --font-sans: "Georgia", "Iowan Old Style", serif;
+  --font-sans: "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 * {
@@ -29,10 +29,10 @@ body {
   min-height: 100vh;
   color: var(--foreground);
   background:
-    radial-gradient(circle at top left, rgba(200, 116, 79, 0.22), transparent 26%),
-    radial-gradient(circle at 85% 12%, rgba(137, 170, 125, 0.18), transparent 22%),
-    linear-gradient(180deg, #fffaf5 0%, var(--background) 52%, #efe4d8 100%);
-  font-family: "Georgia", "Iowan Old Style", serif;
+    radial-gradient(circle at top left, rgba(31, 138, 112, 0.2), transparent 24%),
+    radial-gradient(circle at 90% 10%, rgba(255, 196, 119, 0.28), transparent 20%),
+    linear-gradient(180deg, #f8f6f1 0%, var(--background) 52%, #e7ece8 100%);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 a {
@@ -40,9 +40,15 @@ a {
   text-decoration: none;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 h1,
 h2,
-h3,
 p {
   margin: 0;
 }
@@ -54,46 +60,35 @@ p {
 }
 
 .hero,
-.highlight-grid,
-.details,
-.schedule,
-.footer-card {
+.date-strip,
+.content-grid {
   opacity: 0;
   transform: translateY(18px);
   animation: reveal 700ms ease forwards;
 }
 
-.highlight-grid {
+.date-strip {
   animation-delay: 100ms;
 }
 
-.details {
+.content-grid {
   animation-delay: 180ms;
-}
-
-.schedule {
-  animation-delay: 260ms;
-}
-
-.footer-card {
-  animation-delay: 340ms;
 }
 
 .hero {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 24px;
-  min-height: 70vh;
+  min-height: 62vh;
   align-items: stretch;
   padding-top: 24px;
 }
 
 .hero-copy,
-.hero-card,
-.highlight-card,
-.details-grid article,
-.timeline-item,
-.footer-card {
+.hero-panel,
+.date-card,
+.info-card,
+.booking-card {
   border: 1px solid var(--border);
   border-radius: 28px;
   background: var(--panel);
@@ -101,8 +96,11 @@ p {
   backdrop-filter: blur(18px);
 }
 
-.hero-copy {
-  padding: 40px;
+.hero-copy,
+.hero-panel,
+.info-card,
+.booking-card {
+  padding: 32px;
 }
 
 .eyebrow {
@@ -115,9 +113,15 @@ p {
 
 h1 {
   max-width: 11ch;
-  font-size: clamp(3.2rem, 8vw, 6.8rem);
-  line-height: 0.92;
+  font-size: clamp(3.1rem, 8vw, 6.4rem);
+  line-height: 0.9;
   letter-spacing: -0.05em;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
 }
 
 .lead {
@@ -145,7 +149,6 @@ h1 {
   transition:
     transform 160ms ease,
     background-color 160ms ease,
-    color 160ms ease,
     border-color 160ms ease;
 }
 
@@ -155,7 +158,7 @@ h1 {
 
 .button-primary {
   background: var(--accent);
-  color: #fff9f3;
+  color: #f8fffd;
 }
 
 .button-primary:hover {
@@ -167,137 +170,200 @@ h1 {
   border: 1px solid var(--border);
 }
 
-.hero-card {
-  padding: 32px;
-  background:
-    linear-gradient(180deg, rgba(255, 252, 248, 0.95), rgba(244, 228, 214, 0.9));
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  text-align: center;
+.hero-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 18px;
+  background:
+    linear-gradient(180deg, rgba(250, 255, 253, 0.98), rgba(224, 244, 237, 0.92));
 }
 
-.card-kicker {
+.card-kicker,
+.mini-stats span,
+.date-card small {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 0.8rem;
   color: var(--muted);
 }
 
-.ring {
-  width: 160px;
-  height: 160px;
-  border-radius: 999px;
-  position: relative;
-  border: 1px solid rgba(159, 87, 56, 0.28);
-  background:
-    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), transparent 36%),
-    linear-gradient(180deg, rgba(255, 241, 221, 0.95), rgba(206, 147, 103, 0.8));
-  animation: float 4s ease-in-out infinite;
-}
-
-.ring::after {
-  content: "";
-  position: absolute;
-  inset: 22px;
-  border-radius: 999px;
-  border: 12px solid rgba(255, 248, 240, 0.95);
-}
-
-.quote {
-  max-width: 18rem;
+.quote,
+.helper-text {
   line-height: 1.7;
   color: var(--muted);
-  font-size: 1.05rem;
 }
 
-.highlight-grid {
+.hero-panel > strong,
+.mini-stats strong {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.1;
+}
+
+.mini-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 18px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
-.highlight-card {
-  padding: 22px 24px;
+.mini-stats div {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(31, 138, 112, 0.12);
 }
 
-.highlight-card span {
+.mini-stats span {
   display: block;
-  font-size: 0.82rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 
-.highlight-card strong {
-  display: block;
-  margin-top: 10px;
-  font-size: clamp(1.5rem, 3vw, 2.3rem);
-  font-weight: 500;
-}
-
-.details,
-.schedule {
-  margin-top: 24px;
-}
-
-.section-heading {
-  max-width: 42rem;
-}
-
-h2 {
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.04;
-  letter-spacing: -0.04em;
-}
-
-.details-grid {
+.date-strip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 18px;
-}
-
-.details-grid article {
-  padding: 26px;
-}
-
-.details-grid p,
-.timeline-item p {
-  margin-top: 10px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.timeline {
-  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-top: 18px;
 }
 
-.timeline-item {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 18px;
-  padding: 22px 24px;
-  align-items: start;
+.date-card {
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
 }
 
-.timeline-time {
+.date-card:hover,
+.date-card.active {
+  transform: translateY(-3px);
+  border-color: rgba(31, 138, 112, 0.35);
+  background: linear-gradient(180deg, #ffffff, var(--accent-soft));
+}
+
+.date-card span,
+.date-card strong,
+.date-card small {
+  display: block;
+}
+
+.date-card span {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.date-card strong {
+  margin-top: 10px;
   font-size: 1.1rem;
-  color: var(--accent-strong);
 }
 
-.footer-card {
+.date-card small {
+  margin-top: 6px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 24px;
   margin-top: 24px;
-  padding: 28px 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  background: var(--panel-strong);
+}
+
+.info-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.service-list li,
+.bullet-points p {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid var(--border);
+}
+
+.accent-card {
+  background:
+    linear-gradient(180deg, rgba(31, 138, 112, 0.96), rgba(20, 104, 84, 0.96));
+  color: #f2fffb;
+}
+
+.accent-card .eyebrow,
+.accent-card p {
+  color: rgba(242, 255, 251, 0.92);
+}
+
+.bullet-points {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.bullet-points p {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.booking-header {
+  margin-bottom: 22px;
+}
+
+.booking-form {
+  display: grid;
+  gap: 16px;
+}
+
+.booking-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.96rem;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  border: 1px solid rgba(24, 33, 38, 0.12);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--foreground);
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+  border-color: rgba(31, 138, 112, 0.5);
+  box-shadow: 0 0 0 4px rgba(31, 138, 112, 0.12);
+}
+
+.split-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.submit-button {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.success-message {
+  color: var(--accent-strong);
+  font-weight: 700;
+  line-height: 1.6;
 }
 
 @keyframes reveal {
@@ -307,62 +373,48 @@ h2 {
   }
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .hero,
-  .highlight-grid,
-  .details-grid,
-  .footer-card {
+  .date-strip,
+  .content-grid,
+  .split-fields {
     grid-template-columns: 1fr;
   }
 
   .hero {
     min-height: auto;
   }
-
-  .timeline-item {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-card {
-    justify-items: start;
-  }
 }
 
 @media (max-width: 640px) {
   .page-shell {
     width: min(100% - 20px, 1120px);
-    padding: 20px 0 32px;
+    padding: 18px 0 34px;
   }
 
   .hero-copy,
-  .hero-card,
-  .highlight-card,
-  .details-grid article,
-  .timeline-item,
-  .footer-card {
-    border-radius: 22px;
-  }
-
-  .hero-copy,
-  .hero-card,
-  .details-grid article,
-  .timeline-item,
-  .footer-card {
-    padding: 22px;
+  .hero-panel,
+  .info-card,
+  .booking-card,
+  .date-card {
+    padding: 24px 20px;
+    border-radius: 24px;
   }
 
   h1 {
-    font-size: clamp(2.8rem, 16vw, 4.5rem);
+    max-width: 100%;
+  }
+
+  .hero-actions,
+  .mini-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions {
+    display: grid;
+  }
+
+  .button {
+    width: 100%;
   }
 }

@@ -84,6 +84,33 @@ export default function Home() {
         ))}
       </section>
 
+      <section className="image-band" aria-label="Manca hangulatkepek">
+        <article className="image-card image-card-large">
+          <img
+            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"
+            alt="Rendezett, tiszta nappali vilagos fenyekkel"
+          />
+          <div className="image-copy">
+            <p className="eyebrow">Otthoni frissites</p>
+            <h2>Vilagos terek, gyors rendbetetel.</h2>
+          </div>
+        </article>
+
+        <article className="image-card">
+          <img
+            src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=900&q=80"
+            alt="Takarito eszkozok es friss torolkoruha rendezett konyhapulton"
+          />
+        </article>
+
+        <article className="image-card">
+          <img
+            src="https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=900&q=80"
+            alt="Ragyogo furdoszoba torulkozokkel es novennyel"
+          />
+        </article>
+      </section>
+
       <section className="content-grid">
         <div className="info-stack" id="szolgaltatasok">
           <article className="info-card">

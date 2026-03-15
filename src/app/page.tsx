@@ -1,31 +1,102 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-
-const bookingDates = [
-  { day: "15", label: "Marcius 15.", note: "vasarnap" },
-  { day: "16", label: "Marcius 16.", note: "hetfo" },
-  { day: "17", label: "Marcius 17.", note: "kedd" },
-  { day: "18", label: "Marcius 18.", note: "szerda" },
-];
+import { FormEvent, useMemo, useState } from "react";
 
 const services = [
-  "Lakastakaritas",
-  "Melytisztitas",
-  "Irodatakaritas",
-  "Kikoltozes utani takaritas",
+  {
+    title: "Lakastakaritas",
+    description:
+      "Rendszeres vagy alkalmi takaritas nappalira, halora, konyhara es furdore szabva.",
+    image:
+      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Melytisztitas",
+    description:
+      "Alaposabb tisztitas konyhai feluletekre, fugakra, ajtokra es nehezebben elerheto reszekre.",
+    image:
+      "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Irodatakaritas",
+    description:
+      "Kisebb irodak, rendelok es uzlethelyisegek delutani vagy kora esti rendbetetele.",
+    image:
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+  },
 ];
 
-const slots = ["08:00", "10:30", "13:00", "15:30", "17:30"];
+const benefits = [
+  "Attekintheto foglalas csak hetkoznap 15:00-18:00 kozott.",
+  "Mobilon is gyorsan kitoltheto egyoldalas felulet.",
+  "Otthonokhoz es kisebb irodakhoz is ertelmezett szolgaltatasok.",
+];
+
+const testimonials = [
+  {
+    quote: "Gyors visszajelzes, pontos erkezes, rendezett lakas.",
+    name: "Kata, XI. kerulet",
+  },
+  {
+    quote: "A foglalas egyszeru volt, a takaritas utan minden atlathato lett.",
+    name: "Andras, kis iroda",
+  },
+];
+
+const slots = ["15:00", "16:00", "17:00", "18:00"];
+
+function nextWeekdays() {
+  const formatter = new Intl.DateTimeFormat("hu-HU", {
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  });
+  const today = new Date();
+  const dates = [];
+  let offset = 0;
+
+  while (dates.length < 5) {
+    const current = new Date(today);
+    current.setDate(today.getDate() + offset);
+    const day = current.getDay();
+    if (day >= 1 && day <= 5) {
+      dates.push({
+        value: current.toISOString().slice(0, 10),
+        label: formatter.format(current),
+      });
+    }
+    offset += 1;
+  }
+
+  return dates;
+}
 
 export default function Home() {
-  const [selectedDate, setSelectedDate] = useState(bookingDates[0].label);
-  const [selectedService, setSelectedService] = useState(services[0]);
-  const [selectedSlot, setSelectedSlot] = useState(slots[1]);
+  const weekdays = useMemo(() => nextWeekdays(), []);
+  const [selectedDate, setSelectedDate] = useState(weekdays[0]?.value ?? "");
+  const [selectedService, setSelectedService] = useState(services[0].title);
+  const [selectedSlot, setSelectedSlot] = useState(slots[0]);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmitted(false);
+    setError("");
+
+    const selected = new Date(selectedDate);
+    const day = selected.getDay();
+
+    if (!(day >= 1 && day <= 5)) {
+      setError("Foglalni csak hetkoznap lehet.");
+      return;
+    }
+
+    if (!slots.includes(selectedSlot)) {
+      setError("Csak 15:00 es 18:00 kozotti idosav foglalhato.");
+      return;
+    }
+
     setSubmitted(true);
   }
 
@@ -33,15 +104,16 @@ export default function Home() {
     <main className="page-shell">
       <section className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Manca takarito szolgaltatasai</p>
-          <h1>Tiszta otthon, lefoglalt idoponttal.</h1>
+          <p className="eyebrow">Manca takarito szolgaltatas</p>
+          <h1>Foglalj takaritast hetkoznap delutanra.</h1>
           <p className="lead">
-            Egyszeru foglalas modern feluleten. Valassz szolgaltatast,
-            idopontot es kuldd el az igenyedet nehany masodperc alatt.
+            A felulet most a gyors foglalasra van kielezve: vilagos szolgaltatasblokkok,
+            kepek, egyszeru kapcsolatfelvetel es csak hetkoznap 15:00-18:00 kozotti
+            idopontok.
           </p>
           <div className="hero-actions">
             <a className="button button-primary" href="#foglalas">
-              Idopontot kerek
+              Foglalas
             </a>
             <a className="button button-secondary" href="#szolgaltatasok">
               Szolgaltatasok
@@ -50,85 +122,89 @@ export default function Home() {
         </div>
 
         <div className="hero-panel">
-          <p className="card-kicker">Elerheto foglalas</p>
-          <strong>2026. marcius 15-18.</strong>
+          <p className="card-kicker">Gyors attekintes</p>
+          <strong>Hetfőtol pentekig, 15:00-18:00</strong>
           <p className="quote">
-            Csak a megadott negy napon lehet idopontot kerni, gyors
-            visszaigazolassal.
+            Jelenleg a foglalasi urlap nincs kulso rendszerre bekotve, csak helyi
+            demo allapotban mutatja a rogzitest.
           </p>
           <div className="mini-stats">
             <div>
-              <span>Valaszido</span>
-              <strong>1 oran belul</strong>
+              <span>Idosavok</span>
+              <strong>4 / nap</strong>
             </div>
             <div>
-              <span>Szabad savok</span>
-              <strong>5 / nap</strong>
+              <span>Valaszido</span>
+              <strong>gyors</strong>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="date-strip" aria-label="Foglalhato datumok">
-        {bookingDates.map((item) => (
-          <button
-            key={item.day}
-            type="button"
-            className={selectedDate === item.label ? "date-card active" : "date-card"}
-            onClick={() => setSelectedDate(item.label)}
-          >
-            <span>{item.day}</span>
-            <strong>{item.label}</strong>
-            <small>{item.note}</small>
-          </button>
+      <section className="service-nav" aria-label="Szolgaltatas kategoria">
+        {services.map((service) => (
+          <a key={service.title} className="service-pill" href="#szolgaltatasok">
+            {service.title}
+          </a>
         ))}
       </section>
 
-      <section className="image-band" aria-label="Manca hangulatkepek">
-        <article className="image-card image-card-large">
-          <img
-            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"
-            alt="Rendezett, tiszta nappali vilagos fenyekkel"
-          />
-          <div className="image-copy">
-            <p className="eyebrow">Otthoni frissites</p>
-            <h2>Vilagos terek, gyors rendbetetel.</h2>
-          </div>
-        </article>
+      <section className="services-section" id="szolgaltatasok">
+        <div className="section-heading">
+          <p className="eyebrow">Szolgaltatasok</p>
+          <h2>Kepekkel tamogatott, egyszeruen atfuthato blokkok.</h2>
+        </div>
 
-        <article className="image-card">
-          <img
-            src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=900&q=80"
-            alt="Takarito eszkozok es friss torolkoruha rendezett konyhapulton"
-          />
-        </article>
+        <div className="service-grid">
+          {services.map((service) => (
+            <article key={service.title} className="service-card">
+              <img src={service.image} alt={service.title} />
+              <div className="service-card-body">
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a className="service-link" href="#foglalas">
+                  Erre foglalnek
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-        <article className="image-card">
-          <img
-            src="https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=900&q=80"
-            alt="Ragyogo furdoszoba torulkozokkel es novennyel"
-          />
-        </article>
+      <section className="why-section">
+        <div className="section-heading">
+          <p className="eyebrow">Miert jo ez a felulet</p>
+          <h2>Ugyanarra a gyors, szolgaltatasfokuszu logikara epul, mint a mintaoldal.</h2>
+        </div>
+        <div className="benefit-grid">
+          {benefits.map((benefit) => (
+            <article key={benefit} className="benefit-card">
+              <p>{benefit}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="content-grid">
-        <div className="info-stack" id="szolgaltatasok">
-          <article className="info-card">
-            <p className="eyebrow">Szolgaltatasok</p>
-            <h2>Rugalmas takaritas otthonra es kisebb irodaba.</h2>
-            <ul className="service-list">
-              {services.map((service) => (
-                <li key={service}>{service}</li>
-              ))}
-            </ul>
+        <div className="info-stack">
+          <article className="info-card accent-card">
+            <p className="eyebrow">Jelenlegi foglalasi szabaly</p>
+            <div className="bullet-points">
+              <p>Csak hetkoznap valaszthato datum.</p>
+              <p>Csak 15:00, 16:00, 17:00 es 18:00 idosav valaszthato.</p>
+              <p>A submit most demo, nem kuld adatot sehova.</p>
+            </div>
           </article>
 
-          <article className="info-card accent-card">
-            <p className="eyebrow">Mit kapsz</p>
-            <div className="bullet-points">
-              <p>Attekintheto idopontvalasztas 15-18 kozotti datumokra.</p>
-              <p>Egyszeru kapcsolatfelvetel telefon es e-mail megadasaval.</p>
-              <p>Modern, mobilon is jol hasznalhato egyoldalas felulet.</p>
+          <article className="info-card">
+            <p className="eyebrow">Velemenyek</p>
+            <div className="testimonial-list">
+              {testimonials.map((item) => (
+                <blockquote key={item.name} className="testimonial-card">
+                  <p>{item.quote}</p>
+                  <footer>{item.name}</footer>
+                </blockquote>
+              ))}
             </div>
           </article>
         </div>
@@ -136,7 +212,7 @@ export default function Home() {
         <section className="booking-card" id="foglalas">
           <div className="booking-header">
             <p className="eyebrow">Foglalasi urlap</p>
-            <h2>Kerj idopontot ket perc alatt.</h2>
+            <h2>Kerj idopontot hetkoznap 15:00-18:00 kozott.</h2>
           </div>
 
           <form className="booking-form" onSubmit={handleSubmit}>
@@ -163,8 +239,8 @@ export default function Home() {
                 onChange={(event) => setSelectedService(event.target.value)}
               >
                 {services.map((service) => (
-                  <option key={service} value={service}>
-                    {service}
+                  <option key={service.title} value={service.title}>
+                    {service.title}
                   </option>
                 ))}
               </select>
@@ -172,14 +248,14 @@ export default function Home() {
 
             <div className="split-fields">
               <label>
-                Datum
+                Hetkoznap
                 <select
                   name="date"
                   value={selectedDate}
                   onChange={(event) => setSelectedDate(event.target.value)}
                 >
-                  {bookingDates.map((item) => (
-                    <option key={item.label} value={item.label}>
+                  {weekdays.map((item) => (
+                    <option key={item.value} value={item.value}>
                       {item.label}
                     </option>
                   ))}
@@ -207,22 +283,22 @@ export default function Home() {
               <textarea
                 name="notes"
                 rows={4}
-                placeholder="Pl. lakas merete, cim, kulon keres..."
+                placeholder="Pl. lakas merete, kulon kereses, cim..."
               />
             </label>
 
             <button className="button button-primary submit-button" type="submit">
-              Foglalasi igeny kuldese
+              Foglalasi igeny rogzitese
             </button>
 
             <p className="helper-text">
-              Foglalas csak 2026. marcius 15. es 2026. marcius 18. kozotti
-              datumokra erheto el.
+              Jelenleg csak hetkoznapi, 15:00-18:00 kozotti delutani savok foglalhatok.
             </p>
 
+            {error ? <p className="error-message">{error}</p> : null}
             {submitted ? (
               <p className="success-message">
-                Koszonjuk! A foglalasi igeny rogzitve: {selectedDate}, {selectedSlot}.
+                Demo rogzitve: {selectedService}, {selectedSlot}, {weekdays.find((item) => item.value === selectedDate)?.label}.
               </p>
             ) : null}
           </form>
